@@ -1,0 +1,20 @@
+env:
+  DRONE_RPC_SECRET: "<DRONE_RPC_SECRET>"
+  DRONE_RPC_HOST: drone.iaclab.com.br
+  DRONE_RPC_PROTO: https
+  DRONE_SERVER_PROTO: https
+  DRONE_NAMESPACE_DEFAULT: drone
+  DRONE_SECRET_PLUGIN_ENDPOINT: http://drone-kubernetes-secrets:3000
+  DRONE_SECRET_PLUGIN_TOKEN: "<DRONE_RPC_SECRET>"
+  DRONE_LOGS_TRACE: true
+  DRONE_DEBUG: true
+replicaCount: 1
+
+rbac:
+  buildNamespaces:
+    - drone
+    - default
+    - sre
+    - dev
+    - stg
+    - prd

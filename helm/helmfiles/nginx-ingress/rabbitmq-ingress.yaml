@@ -1,0 +1,20 @@
+controller:
+  replicaCount: 1
+  publishService:
+    enabled: true
+  ingressClass: rabbitmq-ingress
+#  service:
+#    loadBalancerIP: 10.1.47.0
+#    annotations:
+#      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+#      service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "PublicSubnet"
+#      service.beta.kubernetes.io/azure-load-balancer-resource-group: "staging"
+  config:
+    use-forwarded-headers: "true"
+#  extraArgs:
+#    default-ssl-certificate: "sre/default-tls"
+tcp:
+  1883: "dev/rabbitmq:mqtt"
+  1884: "stg/rabbitmq:mqtt"
+  1885: "prd/rabbitmq:mqtt"
+#  dns_local: rabbitmq.dev.svc.cluster.local

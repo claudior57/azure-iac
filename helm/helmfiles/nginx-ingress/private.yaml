@@ -1,0 +1,11 @@
+controller:
+  replicaCount: 4
+  publishService:
+    enabled: true
+  ingressClass: nginx-private
+  service:
+    targetPorts:
+      http: http
+      https: http
+    annotations: []
+  config: []

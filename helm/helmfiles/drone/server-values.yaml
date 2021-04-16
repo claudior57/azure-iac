@@ -1,0 +1,26 @@
+env:
+  DRONE_SERVER_HOST: "drone.iaclab.com.br"
+  DRONE_SERVER_PROTO: https
+  DRONE_RPC_SECRET: "<DRONE_RPC_SECRET>"
+  DRONE_GITLAB_CLIENT_ID: "<DRONE_GITLAB_CLIENT_ID>"
+  DRONE_GITLAB_CLIENT_SECRET: "<DRONE_GITLAB_CLIENT_SECRET>"
+  DRONE_USER_CREATE: "<DRONE_USER_CREATE>"
+  DRONE_REPOSITORY_FILTER: "iaclab-org"
+  DRONE_USER_FILTER: "iaclab-org"
+#  DRONE_LOGS_TRACE: true
+
+ingress:
+  enabled: true
+  hosts:
+    - host: drone.iaclab.com.br
+      paths:
+        - "/"
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/acme-challenge-type: http01
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    - hosts:
+        - drone.iaclab.com.br
+      secretName: drone-ssl-secret

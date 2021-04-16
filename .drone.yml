@@ -1,0 +1,81 @@
+---
+kind: pipeline
+type: docker
+name: plan
+
+platform:
+  os: linux
+  arch: amd64
+
+concurrency:
+  limit: 1
+
+steps:
+
+- name: terraform-buildstaging-plan
+  pull: always
+  image: jmccann/drone-terraform:1
+  settings:
+    command: plan
+    folders:
+    - rg
+    - log
+    - vnet
+    - aks
+  environment:
+    AKS_DEFAULT_REGION: us-east-1
+  depends_on:
+  - clone
+
+trigger:
+  branch:
+    exclude:
+    - master
+
+---
+kind: pipeline
+type: docker
+name: apply
+
+platform:
+  os: linux
+  arch: amd64
+
+concurrency:
+  limit: 1
+
+steps:
+- name: eks-buildstaging
+  pull: always
+  image: iaclab/pipeline-utils:latest
+  commands:
+  - helmfile --file helm/helmfile.yaml apply
+  environment:
+    KUBECONFIG:
+      from_secret: kubeconfig_buildstaging
+  depends_on:
+  - clone
+
+- name: terraform-buildstaging-apply
+  pull: always
+  image: hotmart/pipeline-terraform:latest
+  settings:
+    command: apply
+    folders:
+      - rg
+      - log
+      - vnet
+      - aks
+    environment:
+    AWS_DEFAULT_REGION: us-east-1
+  depends_on:
+  - clone
+
+trigger:
+  branch:
+  - master
+  event:
+    exclude:
+    - pull_request
+
+...

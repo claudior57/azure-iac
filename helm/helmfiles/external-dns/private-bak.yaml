@@ -1,0 +1,16 @@
+replicas: 1
+provider: azure-private-dns
+azure:
+  cloud: "AzurePublicCloud"
+  resourceGroup: "dns-resource-group"
+  tenantId: "<tenantdId>"
+  subscriptionId: "<subscriptionId>"
+  aadClientId: "<aadClientId>"
+  aadClientSecret: "<aadClientSecret>"
+  useManagedIdentityExtension: false
+
+domainFilters:
+  - private.iaclab
+
+rbac:
+  create: true

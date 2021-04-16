@@ -1,0 +1,114 @@
+---
+
+helmBinary: /usr/bin/helm
+
+repositories:
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com
+
+- name: drone
+  url: https://charts.drone.io
+
+- name: bitnami
+  url: https://charts.bitnami.com/bitnami
+
+- name: ingress-nginx
+  url: https://kubernetes.github.io/ingress-nginx
+
+- name: microsoft-agic
+  url:   https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
+
+- name: jetstack
+  url:  https://charts.jetstack.io
+
+
+releases:
+- name: ingress-azure-controller
+  namespace: sre
+  chart: microsoft-agic/ingress-azure
+  version: 1.2.0
+  labels:
+    app: ingress-azure-controller
+  values:
+    - "helmfiles/ingress-azure-controller/values.yaml"
+
+- name: external-dns
+  namespace: sre
+  chart: bitnami/external-dns
+  version: 2.22.1
+  labels:
+    app: external-dns
+  values:
+    - "helmfiles/external-dns/values.yaml"
+
+- name: private-dns
+  namespace: sre
+  chart: bitnami/external-dns
+  version: 2.22.1
+  labels:
+    app: private-dns
+  values:
+    - "helmfiles/external-dns/private.yaml"
+
+- name: cert-manager
+  namespace: sre
+  chart: jetstack/cert-manager
+  version: v0.16.1
+  labels:
+    app: cert-manager
+  values:
+    - "helmfiles/cert-manager/values.yaml"
+
+- name: drone
+  namespace: drone
+  chart: drone/drone
+  version: 0.1.6
+  labels:
+    app: drone
+  values:
+    - "helmfiles/drone/server-values.yaml"
+
+- name: drone-runner-kube
+  namespace: drone
+  chart: drone/drone-runner-kube
+  version: 0.1.3
+  labels:
+    app: drone-runner-kube
+  values:
+    - "helmfiles/drone/runner-values.yaml"
+
+- name: drone-kubernetes-secrets
+  namespace: drone
+  chart: drone/drone-kubernetes-secrets
+  version: 0.1.0
+  labels:
+    app: drone-kubernetes-secrets
+  values:
+    - "helmfiles/drone/secrets-values.yaml"
+
+- name: nginx-ingress-internal
+  namespace: sre
+  chart: ingress-nginx/ingress-nginx
+  version: 2.11.3
+  labels:
+    app: nginx-ingress-internal
+  values:
+    - "helmfiles/nginx-ingress/internal.yaml"
+
+- name: nginx-ingress
+  namespace: sre
+  chart: ingress-nginx/ingress-nginx
+  version: 2.11.3
+  labels:
+    app: nginx-ingress
+  values:
+    - "helmfiles/nginx-ingress/external.yaml"
+
+- name: rabbitmq-ingress
+  namespace: sre
+  chart: ingress-nginx/ingress-nginx
+  version: 2.11.3
+  labels:
+    app: rabbitmq-ingress
+  values:
+    - "helmfiles/nginx-ingress/rabbitmq-ingress.yaml"

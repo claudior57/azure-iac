@@ -1,0 +1,15 @@
+#verbosityLevel: 3
+appgw:
+  name: application-gateway-staging
+  subscriptionId: "<subscriptionId>"
+  resourceGroup: staging
+  shared: false
+
+armAuth:
+  type: servicePrincipal
+  #this value can be generated using the command
+  # az ad sp create-for-rbac --subscription <subscription-uuid> --sdk-auth | base64 -w0
+  secretJSON: "<secretjson>"
+
+rbac:
+  enabled: true

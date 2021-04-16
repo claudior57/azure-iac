@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: example-issuer
+spec:
+  acme:
+    ...
+    solvers:
+      - dns01:
+          azuredns:
+            clientID: "<aadClientId>"
+            clientSecret: "<aadClientSecret>"
+            subscriptionID: "<subscriptionId>"
+            tenantID: "<tenantdId>"
+            resourceGroupName: "dns-resource-group"
+            hostedZoneName: "iaclab.com"
+            environment: AzurePublicCloud

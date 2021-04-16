@@ -1,0 +1,14 @@
+controller:
+  replicaCount: 2
+  publishService:
+    enabled: true
+  ingressClass: nginx
+  service:
+    targetPorts:
+      http: http
+      https: http
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-subnet: "PublicSubnet"
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: "staging"
+  config:
+    use-forwarded-headers: "true"
